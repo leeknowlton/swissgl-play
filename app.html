@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
+  <body data-sveltekit-preload-data="hover"></body>
+</html>
+
+<script src="swissgl.js"></script>
+<canvas id="c" width="400" height="300"></canvas>
+<script>
+  const canvas = document.getElementById("c");
+  const glsl = SwissGL(canvas);
+
+  // create WebGL2 context end SwissGL
+  const K = 6; // number of particle types
+  const F = glsl(
+    { K, FP: `float(I.x==I.y) + 0.1*float(I.x==(I.y+1)%int(K))` },
+    { size: [K, K], format: "r16f", tag: "F" }
+  );
+
+  glsl({ F, FP: `F(I/20).x*3.0` });
+</script>
